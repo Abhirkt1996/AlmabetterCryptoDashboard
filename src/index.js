@@ -1,17 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+// Library Imports
+import React, { Suspense } from "react";
+import { lazy } from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+// Files import
+// import App from "./App";
+import { store } from "./common/store/store.js";
+import Loader from "./components/Loader/Loader.jsx";
+import "./index.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const MyApp = lazy(() => import("./App.js"));
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <Suspense fallback={<Loader />}>
+        {/* <App /> */}
+        <MyApp />
+      </Suspense>
+    </Provider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
